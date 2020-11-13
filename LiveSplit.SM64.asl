@@ -1,4 +1,5 @@
-state("Project64", "Project64 v1.6 (JP)") {
+// Memory of Japanese version
+state("Project64", "Japanese") {
     uint gameRunTime : "Project64.exe", 0xD6A1C, 0x32C640;
     byte fileSelected : "Project64.exe", 0xD6A1C, 0x32CE96;
     byte mapID : "Project64.exe", 0xD6A1C, 0x32CE9A;
@@ -14,7 +15,7 @@ state("Project64", "Project64 v1.6 (JP)") {
 
 
 // Memory of Shindou version
- state("Project64", "Project64 v1.6 (Shindou)") {
+ state("Project64", "Shindou") {
    uint gameRunTime : "Project64.exe", 0xD6A1C, 0x30CCB0;
    byte fileSelected : "Project64.exe", 0xD6A1C, 0x30D526;
    byte mapID : "Project64.exe", 0xD6A1C, 0x30D52A;
@@ -29,7 +30,7 @@ state("Project64", "Project64 v1.6 (JP)") {
 }
 
 // Memory of US version
- state("Project64", "Project64 v1.6 (US)") {
+ state("Project64", "USA") {
    uint gameRunTime : "Project64.exe", 0xD6A1C, 0x32D580;
    byte fileSelected : "Project64.exe", 0xD6A1C, 0x32DDF6;
    byte mapID : "Project64.exe", 0xD6A1C, 0x32DDFA;
@@ -44,7 +45,7 @@ state("Project64", "Project64 v1.6 (JP)") {
 }
 
 // Memory of Europe version
- state("Project64", "Project64 v1.6 (EU)") {
+ state("Project64", "Europe") {
    uint gameRunTime : "Project64.exe", 0xD6A1C, 0x2F9730;
    byte fileSelected : "Project64.exe", 0xD6A1C, 0x2F9FC6;
    byte mapID : "Project64.exe", 0xD6A1C, 0x2F9FCA;
@@ -63,19 +64,19 @@ init {
     // Version identifier
     if (settings["gameVerJP"])
 	{
-		version = "Project64 v1.6 (JP)";
+		version = "Japanese";
 	}
 	else if (settings["gameVerShindou"])
 	{
-		version = "Project64 v1.6 (Shindou)";
+		version = "Shindou";
 	}
         else if (settings["gameVerUS"])
 	{
-		version = "Project64 v1.6 (US)";
+		version = "USA";
 	}
         else if (settings["gameVerEU"])
 	{
-		version = "Project64 v1.6 (EU)";
+		version = "Europe";
 	}
     print(version);
     
@@ -141,14 +142,14 @@ start {
         vars.valueReset = 1;
         return true;
     }
-    if (settings["menuStart"] && !settings["launchStart"] && current.mainMenu <= 3 && old.mainMenu == 255 && (current.music == 2149655552 || current.music == 2149529099 || current.music == 2149529115)) {
+    if (settings["menuStart"] && !settings["launchStart"] && current.mainMenu <= 3 && old.mainMenu == 255) {
         vars.valueReset = 1;
         return true;
     }
 }
 
 reset {
-    if (settings["fileChangeReset"] && vars.currentFile != 0 && (current.music == 2149655552 || current.music == 2149529099 || current.music == 2149529115) && current.mainMenu <= 3 && vars.currentFile - 1 != current.mainMenu) {
+    if (settings["fileChangeReset"] && vars.currentFile != 0 && current.mainMenu <= 3 && vars.currentFile - 1 != current.mainMenu) {
         vars.valueReset = 1;
         return true;
     }
