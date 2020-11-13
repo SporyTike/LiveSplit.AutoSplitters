@@ -1,4 +1,5 @@
-state("Project64", "1.6") {
+// Memory of JP version
+state("Project64", "Project64 v1.6 (JP)") {
     uint gameRunTime : "Project64.exe", 0xD6A1C, 0x32C640;
     byte fileSelected : "Project64.exe", 0xD6A1C, 0x32CE96;
     byte mapID : "Project64.exe", 0xD6A1C, 0x32CE9A;
@@ -13,22 +14,34 @@ state("Project64", "1.6") {
 }
 
 // Memory of US version
-/* state("Project64", "1.6 (US)") {
- *   uint gameRunTime : "Project64.exe", 0xD6A1C, 0x32D580;
- *   byte fileSelected : "Project64.exe", 0xD6A1C, 0x32DDF6;
- *   byte mapID : "Project64.exe", 0xD6A1C, 0x32DDFA;
- *   ushort animation : "Project64.exe", 0xD6A1C, 0x33B17C;
- *   short starNumber : "Project64.exe", 0xD6A1C, 0x33B218;
- *   byte mainMenu : "Project64.exe", 0xD6A1C, 0x1A7D13;
- *   uint music : "Project64.exe", 0xD6A1C, 0x22261C;
- *   byte fileAkey : "Project64.exe", 0xD6A1C, 0x207708;
- *   byte fileBkey : "Project64.exe", 0xD6A1C, 0x207778;
- *   byte fileCkey : "Project64.exe", 0xD6A1C, 0x2077E8;
- *   byte fileDkey : "Project64.exe", 0xD6A1C, 0x207858;
- * }
- */
+ state("Project64", "Project64 v1.6 (US)") {
+   uint gameRunTime : "Project64.exe", 0xD6A1C, 0x32D580;
+   byte fileSelected : "Project64.exe", 0xD6A1C, 0x32DDF6;
+   byte mapID : "Project64.exe", 0xD6A1C, 0x32DDFA;
+   ushort animation : "Project64.exe", 0xD6A1C, 0x33B17C;
+   short starNumber : "Project64.exe", 0xD6A1C, 0x33B218;
+   byte mainMenu : "Project64.exe", 0xD6A1C, 0x1A7D13;
+   uint music : "Project64.exe", 0xD6A1C, 0x22261C;
+   byte fileAkey : "Project64.exe", 0xD6A1C, 0x207708;
+   byte fileBkey : "Project64.exe", 0xD6A1C, 0x207778;
+   byte fileCkey : "Project64.exe", 0xD6A1C, 0x2077E8;
+   byte fileDkey : "Project64.exe", 0xD6A1C, 0x207858;
+ }
+ 
 
 init {
+    // Version identifier
+    if (settings["gameVerJP"])
+	{
+		version = "Project64 v1.6 (JP)";
+	}
+	else if (settings["gameVerUS"])
+	{
+		version = "Project64 v1.6 (US)";
+	}
+    print(version);
+    
+    // Variables
     vars.currentFile = 0;
     vars.currentStars = 0;
     vars.launchMapID = 1;
@@ -78,6 +91,9 @@ startup {
     settings.Add("settingsReset", true, "Reset Settings");
     settings.Add("gameResetReset", false, "Reset on Game Reset", "settingsReset");
     settings.Add("fileChangeReset", false, "Reset on File Change", "settingsReset");
+    settings.Add("gameVersion", true, "Game Version (requires LiveSplit restart)");
+    settings.Add("gameVerJP", true, "Japanese", "gameVersion");
+    settings.Add("gameVerUS", false, "USA", "gameVersion");
 }
 
 start {
@@ -117,6 +133,7 @@ reset {
 }
 
 split {
+    print(version);
     if (!settings["courseSplit"]) {
         if (settings["starSplit"] && current.mapID != vars.launchMapID && old.mapID != vars.launchMapID && current.starNumber > old.starNumber) {
             return true;
@@ -288,5 +305,11 @@ split {
         vars.course13 = 0;
         vars.course14 = 0;
         vars.course15 = 0;
+    }
+}
+
+update {
+    if (version == "") {
+	return false;
     }
 }
