@@ -1,16 +1,32 @@
 state("Project64", "1.6") {
-    uint gameRunTime : "Project64.exe", 0xD6A1C, 0x32D580;
-    byte fileSelected : "Project64.exe", 0xD6A1C, 0x32DDF6;
-    byte mapID : "Project64.exe", 0xD6A1C, 0x32DDFA;
-    ushort animation : "Project64.exe", 0xD6A1C, 0x33B17C;
-    short starNumber : "Project64.exe", 0xD6A1C, 0x33B218;
-    byte mainMenu : "Project64.exe", 0xD6A1C, 0x1A7D13;
-    uint music : "Project64.exe", 0xD6A1C, 0x22261C;
-    byte fileAkey : "Project64.exe", 0xD6A1C, 0x207708;
-    byte fileBkey : "Project64.exe", 0xD6A1C, 0x207778;
-    byte fileCkey : "Project64.exe", 0xD6A1C, 0x2077E8;
-    byte fileDkey : "Project64.exe", 0xD6A1C, 0x207858;
+    uint gameRunTime : "Project64.exe", 0xD6A1C, 0x32C640;
+    byte fileSelected : "Project64.exe", 0xD6A1C, 0x32CE96;
+    byte mapID : "Project64.exe", 0xD6A1C, 0x32CE9A;
+    ushort animation : "Project64.exe", 0xD6A1C, 0x339E0C;
+    short starNumber : "Project64.exe", 0xD6A1C, 0x339EA8;
+    byte mainMenu : "Project64.exe", 0xD6A1C, 0x1A7BD3;
+    uint music : "Project64.exe", 0xD6A1C, 0x222A1C;
+    byte fileAkey : "Project64.exe", 0xD6A1C, 0x207B08;
+    byte fileBkey : "Project64.exe", 0xD6A1C, 0x207B78;
+    byte fileCkey : "Project64.exe", 0xD6A1C, 0x207BE8;
+    byte fileDkey : "Project64.exe", 0xD6A1C, 0x207F58;
 }
+
+// Memory of US version
+/* state("Project64", "1.6 (US)") {
+ *   uint gameRunTime : "Project64.exe", 0xD6A1C, 0x32D580;
+ *   byte fileSelected : "Project64.exe", 0xD6A1C, 0x32DDF6;
+ *   byte mapID : "Project64.exe", 0xD6A1C, 0x32DDFA;
+ *   ushort animation : "Project64.exe", 0xD6A1C, 0x33B17C;
+ *   short starNumber : "Project64.exe", 0xD6A1C, 0x33B218;
+ *   byte mainMenu : "Project64.exe", 0xD6A1C, 0x1A7D13;
+ *   uint music : "Project64.exe", 0xD6A1C, 0x22261C;
+ *   byte fileAkey : "Project64.exe", 0xD6A1C, 0x207708;
+ *   byte fileBkey : "Project64.exe", 0xD6A1C, 0x207778;
+ *   byte fileCkey : "Project64.exe", 0xD6A1C, 0x2077E8;
+ *   byte fileDkey : "Project64.exe", 0xD6A1C, 0x207858;
+ * }
+ */
 
 init {
     vars.currentFile = 0;
