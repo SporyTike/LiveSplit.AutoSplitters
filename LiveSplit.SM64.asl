@@ -1,4 +1,3 @@
-// Memory of JP version
 state("Project64", "Project64 v1.6 (JP)") {
     uint gameRunTime : "Project64.exe", 0xD6A1C, 0x32C640;
     byte fileSelected : "Project64.exe", 0xD6A1C, 0x32CE96;
@@ -11,6 +10,22 @@ state("Project64", "Project64 v1.6 (JP)") {
     byte fileBkey : "Project64.exe", 0xD6A1C, 0x207B78;
     byte fileCkey : "Project64.exe", 0xD6A1C, 0x207BE8;
     byte fileDkey : "Project64.exe", 0xD6A1C, 0x207F58;
+}
+
+
+// Memory of Shindou version
+ state("Project64", "Project64 v1.6 (Shindou)") {
+   uint gameRunTime : "Project64.exe", 0xD6A1C, 0x30CCB0;
+   byte fileSelected : "Project64.exe", 0xD6A1C, 0x30D526;
+   byte mapID : "Project64.exe", 0xD6A1C, 0x30D52A;
+   ushort animation : "Project64.exe", 0xD6A1C, 0x31D9CC;
+   short starNumber : "Project64.exe", 0xD6A1C, 0x31DA68;
+   byte mainMenu : "Project64.exe", 0xD6A1C, 0x1A7203;
+   uint music : "Project64.exe", 0xD6A1C, 0x349DAC;
+   byte fileAkey : "Project64.exe", 0xD6A1C, 0x203F08;
+   byte fileBkey : "Project64.exe", 0xD6A1C, 0x203F78;
+   byte fileCkey : "Project64.exe", 0xD6A1C, 0x203FE8;
+   byte fileDkey : "Project64.exe", 0xD6A1C, 0x204058;
 }
 
 // Memory of US version
@@ -26,7 +41,22 @@ state("Project64", "Project64 v1.6 (JP)") {
    byte fileBkey : "Project64.exe", 0xD6A1C, 0x207778;
    byte fileCkey : "Project64.exe", 0xD6A1C, 0x2077E8;
    byte fileDkey : "Project64.exe", 0xD6A1C, 0x207858;
- }
+}
+
+// Memory of Europe version
+ state("Project64", "Project64 v1.6 (EU)") {
+   uint gameRunTime : "Project64.exe", 0xD6A1C, 0x2F9730;
+   byte fileSelected : "Project64.exe", 0xD6A1C, 0x2F9FC6;
+   byte mapID : "Project64.exe", 0xD6A1C, 0x2F9FCA;
+   ushort animation : "Project64.exe", 0xD6A1C, 0x30943C;
+   short starNumber : "Project64.exe", 0xD6A1C, 0x3094D8;
+   byte mainMenu : "Project64.exe", 0xD6A1C, 0x1A6D53;
+   uint music : "Project64.exe", 0xD6A1C, 0x223DD8;
+   byte fileAkey : "Project64.exe", 0xD6A1C, 0x202F08;
+   byte fileBkey : "Project64.exe", 0xD6A1C, 0x202F78;
+   byte fileCkey : "Project64.exe", 0xD6A1C, 0x202FE8;
+   byte fileDkey : "Project64.exe", 0xD6A1C, 0x203058;
+}
  
 
 init {
@@ -35,9 +65,17 @@ init {
 	{
 		version = "Project64 v1.6 (JP)";
 	}
-	else if (settings["gameVerUS"])
+	else if (settings["gameVerShindou"])
+	{
+		version = "Project64 v1.6 (Shindou)";
+	}
+        else if (settings["gameVerUS"])
 	{
 		version = "Project64 v1.6 (US)";
+	}
+        else if (settings["gameVerEU"])
+	{
+		version = "Project64 v1.6 (EU)";
 	}
     print(version);
     
@@ -93,7 +131,9 @@ startup {
     settings.Add("fileChangeReset", false, "Reset on File Change", "settingsReset");
     settings.Add("gameVersion", true, "Game Version (requires LiveSplit restart)");
     settings.Add("gameVerJP", true, "Japanese", "gameVersion");
+    settings.Add("gameVerShindou", false, "Shindou", "gameVersion");
     settings.Add("gameVerUS", false, "USA", "gameVersion");
+    settings.Add("gameVerEU", false, "Europe", "gameVersion");
 }
 
 start {
@@ -101,14 +141,14 @@ start {
         vars.valueReset = 1;
         return true;
     }
-    if (settings["menuStart"] && !settings["launchStart"] && current.mainMenu <= 3 && old.mainMenu == 255 && current.music == 2149655552) {
+    if (settings["menuStart"] && !settings["launchStart"] && current.mainMenu <= 3 && old.mainMenu == 255 && (current.music == 2149655552 || current.music == 2149529099 || current.music == 2149529115)) {
         vars.valueReset = 1;
         return true;
     }
 }
 
 reset {
-    if (settings["fileChangeReset"] && vars.currentFile != 0 && current.music == 2149655552 && current.mainMenu <= 3 && vars.currentFile - 1 != current.mainMenu) {
+    if (settings["fileChangeReset"] && vars.currentFile != 0 && (current.music == 2149655552 || current.music == 2149529099 || current.music == 2149529115) && current.mainMenu <= 3 && vars.currentFile - 1 != current.mainMenu) {
         vars.valueReset = 1;
         return true;
     }
@@ -127,7 +167,7 @@ reset {
         vars.enterBitS = 0;
     }
     // Current file check for fileChangeReset
-    if (current.mainMenu <= 3 && old.mainMenu == 255 && current.music == 2149655552) {
+    if (current.mainMenu <= 3 && old.mainMenu == 255 && (current.music == 2149655552 || current.music == 2149529099 || current.music == 2149529115)) {
         vars.currentFile = current.mainMenu + 1;
     }
 }
