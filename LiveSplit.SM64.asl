@@ -135,6 +135,10 @@ startup {
     settings.Add("gameVerShindou", false, "Shindou", "gameVersion");
     settings.Add("gameVerUS", false, "USA", "gameVersion");
     settings.Add("gameVerEU", false, "Europe", "gameVersion");
+    settings.Add("chooseStarOption", false, "Star number selection", "starSplitOption");
+	for (int i = 1; i < 121; i++){
+		settings.Add(i + "Split", false, "Powerstar n°" + i, "chooseStarOption");
+	}
 }
 
 start {
@@ -182,6 +186,10 @@ split {
         if (settings["tenthSplit"] && !settings["starSplit"] && current.mapID != vars.launchMapID && old.mapID != vars.launchMapID && current.starNumber > old.starNumber && current.starNumber % 10 == 0 && old.starNumber % 10 == 9) {
             return true;
         }
+	for (int i = 1; i < 121; i++){
+		if (settings[i + "Split"] && !settings["starSplit"] && !settings["tenthSplit"] && current.mapID != vars.launchMapID && old.mapID != vars.launchMapID && current.starNumber > old.starNumber && current.starNumber == i && old.starNumber == i-1) {
+		return true;
+	}
     }
     if (current.animation == 6409 && old.animation != 6409 && current.mapID == 34) {
         return true;
